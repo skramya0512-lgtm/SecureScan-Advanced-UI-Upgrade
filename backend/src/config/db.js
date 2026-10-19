@@ -9,10 +9,19 @@ const caPath = process.env.DB_SSL_CA || "./ca.pem";
 const dialectOptions = {};
 
 if (sslEnabled) {
-  const resolvedCaPath = path.resolve(__dirname, "../..", caPath);
+  let ca;
+
+  if (process.env.DB_SSL_CA_CONTENT) {
+    // Use the certificate stored privately in the hosting environment.
+    ca = process.env.DB_SSL_CA_CONTENT.replace(/\\n/g, "\n");
+  } else {
+    // Local development fallback.
+    const resolvedCaPath = path.resolve(__dirname, "../..", caPath);
+    ca = fs.readFileSync(resolvedCaPath, "utf8");
+  }
 
   dialectOptions.ssl = {
-    ca: fs.readFileSync(resolvedCaPath, "utf8"),
+    ca,
     rejectUnauthorized: true,
   };
 }
