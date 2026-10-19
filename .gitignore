@@ -1,0 +1,25 @@
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Build output
+dist/
+**/dist/
+
+# Private certificates and keys
+ca.pem
+*.key
+*.pem
+
+# Logs and local files
+*.log
+.DS_Store
+Thumbs.db
